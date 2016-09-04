@@ -86,6 +86,10 @@ qflight: HAL_BOARD = HAL_BOARD_LINUX
 qflight: TOOLCHAIN = QFLIGHT
 qflight: all
 
+yatagarasu: HAL_BOARD = HAL_BOARD_LINUX
+yatagarasu: TOOLCHAIN = NATIVE
+yatagarasu: all
+
 empty: HAL_BOARD = HAL_BOARD_EMPTY
 empty: TOOLCHAIN = AVR
 empty: all
