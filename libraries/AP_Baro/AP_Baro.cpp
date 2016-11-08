@@ -30,6 +30,7 @@
 #include "AP_Baro_SITL.h"
 #include "AP_Baro_BMP085.h"
 #include "AP_Baro_BMP280.h"
+#include "AP_Baro_hachidori.h"
 #include "AP_Baro_HIL.h"
 #include "AP_Baro_MS5611.h"
 #include "AP_Baro_qflight.h"
@@ -466,6 +467,9 @@ void AP_Baro::init(void)
     _num_drivers = 1;
 #elif HAL_BARO_DEFAULT == HAL_BARO_QURT
     drivers[0] = new AP_Baro_QURT(*this);
+    _num_drivers = 1;
+#elif HAL_BARO_DEFAULT == HAL_BARO_HACHIDORI
+    drivers[0] = new AP_Baro_HACHIDORI(*this);
     _num_drivers = 1;
 #endif
 

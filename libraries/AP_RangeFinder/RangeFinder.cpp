@@ -27,6 +27,7 @@
 #include "AP_RangeFinder_LeddarOne.h"
 #include "AP_RangeFinder_uLanding.h"
 #include "AP_RangeFinder_trone.h"
+#include "AP_RangeFinder_hachidori.h"
 #include <AP_BoardConfig/AP_BoardConfig.h>
 
 extern const AP_HAL::HAL &hal;
@@ -670,6 +671,14 @@ void RangeFinder::detect_instance(uint8_t instance)
         if (AP_RangeFinder_Bebop::detect(*this, instance)) {
             state[instance].instance = instance;
             drivers[instance] = new AP_RangeFinder_Bebop(*this, instance, state[instance]);
+        }
+        break;
+#endif
+#if CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_HACHIDORI
+    case RangeFinder_TYPE_HACHIDORI:
+        if (AP_RangeFinder_HACHIDORI::detect(*this, instance)) {
+            state[instance].instance = instance;
+            drivers[instance] = new AP_RangeFinder_HACHIDORI(*this, instance, state[instance]);
         }
         break;
 #endif

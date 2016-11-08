@@ -8,6 +8,7 @@
 #include "AP_Compass_AK8963.h"
 #include "AP_Compass_Backend.h"
 #include "AP_Compass_BMM150.h"
+#include "AP_Compass_hachidori.h"
 #include "AP_Compass_HIL.h"
 #include "AP_Compass_HMC5843.h"
 #include "AP_Compass_IST8310.h"
@@ -621,6 +622,8 @@ void Compass::_detect_backends(void)
     ADD_BACKEND(AP_Compass_AK8963::probe_mpu9250(*this, 0), AP_Compass_AK8963::name, false);
 #elif HAL_COMPASS_DEFAULT == HAL_COMPASS_QFLIGHT
     ADD_BACKEND(AP_Compass_QFLIGHT::detect(*this));
+#elif HAL_COMPASS_DEFAULT == HAL_COMPASS_HACHIDORI
+    ADD_BACKEND(AP_Compass_HACHIDORI::detect(*this), nullptr, false);
 #elif HAL_COMPASS_DEFAULT == HAL_COMPASS_BBBMINI
     ADD_BACKEND(AP_Compass_HMC5843::probe(*this, hal.i2c_mgr->get_device(HAL_COMPASS_HMC5843_I2C_BUS, HAL_COMPASS_HMC5843_I2C_ADDR), true),
                  AP_Compass_HMC5843::name, true);

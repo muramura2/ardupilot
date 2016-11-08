@@ -148,6 +148,9 @@ struct AP_Notify::notify_events_type AP_Notify::events;
         DiscoLED discoled;
         ToneAlarm_Linux tonealarm;
         NotifyDevice *AP_Notify::_devices[] = {&discoled, &tonealarm};
+    #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_HACHIDORI
+        RCOutputRGBLed hled(HAL_RCOUT_RGBLED_RED, HAL_RCOUT_RGBLED_GREEN, HAL_RCOUT_RGBLED_BLUE);
+        NotifyDevice *AP_Notify::_devices[] = {&hled};
     #else
         AP_BoardLED boardled;
         ToshibaLED_I2C toshibaled;

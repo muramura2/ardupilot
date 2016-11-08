@@ -14,6 +14,7 @@
 
 #include "AnalogIn_ADS1115.h"
 #include "AnalogIn_IIO.h"
+#include "AnalogIn_hachidori.h"
 #include "AnalogIn_Navio2.h"
 #include "AnalogIn_Raspilot.h"
 #include "GPIO.h"
@@ -27,6 +28,8 @@
 #include "RCInput_RPI.h"
 #include "RCInput_Raspilot.h"
 #include "RCInput_SBUS.h"
+#include "RCInput_XBUS.h"
+#include "RCInput_JS.h"
 #include "RCInput_UART.h"
 #include "RCInput_UDP.h"
 #include "RCInput_115200.h"
@@ -35,6 +38,7 @@
 #include "RCOutput_AioPRU.h"
 #include "RCOutput_Bebop.h"
 #include "RCOutput_Disco.h"
+#include "RCOutput_hachidori.h"
 #include "RCOutput_PCA9685.h"
 #include "RCOutput_PRU.h"
 #include "RCOutput_Raspilot.h"
@@ -46,6 +50,7 @@
 #include "Scheduler.h"
 #include "Storage.h"
 #include "UARTDriver.h"
+#include "UARTDriver_hachidori.h"
 #include "Util.h"
 #include "Util_RPI.h"
 
@@ -70,6 +75,8 @@ static UARTDriver uartADriver(true);
     CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_NAVIO2 || \
     CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_BH
 static SPIUARTDriver uartBDriver;
+#elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_HACHIDORI
+static UARTDriver_HACHIDORI uartBDriver;
 #else
 static UARTDriver uartBDriver(false);
 #endif
@@ -100,6 +107,8 @@ static AnalogIn_Raspilot analogIn;
 static AnalogIn_IIO analogIn;
 #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_NAVIO2
 static AnalogIn_Navio2 analogIn;
+#elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_HACHIDORI
+static AnalogIn_HACHIDORI analogIn;
 #else
 static Empty::AnalogIn analogIn;
 #endif
@@ -166,6 +175,8 @@ static RCInput_Multi rcinDriver{2, new RCInput_SBUS, new RCInput_115200("/dev/ua
 static RCInput_SBUS rcinDriver;
 #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_NAVIO2
 static RCInput_Navio2 rcinDriver;
+#elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_HACHIDORI
+static RCInput_JS rcinDriver("/dev/input/js0");
 #else
 static RCInput rcinDriver;
 #endif
@@ -218,6 +229,8 @@ static RCOutput_Disco rcoutDriver(i2c_mgr_instance.get_device(HAL_RCOUT_DISCO_BL
 static RCOutput_Sysfs rcoutDriver(0, 0, 14);
 #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_AERO
 static RCOutput_AeroIO rcoutDriver;
+#elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_HACHIDORI
+static RCOutput_HACHIDORI rcoutDriver;
 #else
 static Empty::RCOutput rcoutDriver;
 #endif
